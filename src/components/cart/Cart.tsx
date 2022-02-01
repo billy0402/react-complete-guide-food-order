@@ -1,8 +1,9 @@
+import Modal from '@components/ui/modal/Modal';
 import { DUMMY_CART_ITEMS } from '@fixtures/cartItems';
 
 const Cart = () => {
   return (
-    <div>
+    <Modal>
       <ul className='cart-items'>
         {DUMMY_CART_ITEMS.map((item) => (
           <li>{item.name}</li>
@@ -13,10 +14,10 @@ const Cart = () => {
         <span>35.62</span>
       </div>
       <div className='actions'>
-        <button className='button--alt'>Close</button>
-        <button className='button'>Order</button>
+        <button className='cart-button--alt'>Close</button>
+        <button className='cart-button'>Order</button>
       </div>
-    </div>
+    </Modal>
   );
 };
 
