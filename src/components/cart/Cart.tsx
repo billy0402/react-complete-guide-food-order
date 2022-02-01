@@ -14,9 +14,13 @@ const Cart = ({ onClose }: CartProps) => {
 
   const hasItems = cartContext.items.length > 0;
 
-  const cartItemAddHandler = (item: CartItemType) => {};
+  const cartItemAddHandler = (item: CartItemType) => {
+    cartContext.addItem({ ...item, amount: 1 });
+  };
 
-  const cartItemRemoveHandler = (id: string) => {};
+  const cartItemRemoveHandler = (id: string) => {
+    cartContext.removeItem(id);
+  };
 
   return (
     <Modal onClose={onClose}>
