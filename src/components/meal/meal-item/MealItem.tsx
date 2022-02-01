@@ -1,8 +1,9 @@
 import { Meal } from '@models/meal';
+import MealItemForm from './MealItemForm';
 
 type MealItemProps = Meal;
 
-const MealItem = ({ name, description, price }: MealItemProps) => {
+const MealItem = ({ id, name, description, price }: MealItemProps) => {
   return (
     <li className='meal'>
       <div>
@@ -10,7 +11,9 @@ const MealItem = ({ name, description, price }: MealItemProps) => {
         <span className='description'>{description}</span>
         <span className='price'>{`$ ${price.toFixed(2)}`}</span>
       </div>
-      <div></div>
+      <div>
+        <MealItemForm id={id} />
+      </div>
     </li>
   );
 };
