@@ -1,5 +1,11 @@
+import Header from '@components/layout/Header';
+
 const App = () => {
-  return <>Hello, world!</>;
+  return (
+    <>
+      <Header />
+    </>
+  );
 };
 
 export default App;
