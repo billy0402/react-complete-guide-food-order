@@ -1,27 +1,44 @@
+import { useContext } from 'react';
+
 import Modal from '@components/ui/modal/Modal';
-import { DUMMY_CART_ITEMS } from '@fixtures/cartItems';
+import { CartItem as CartItemType } from '@models/cartItem';
+import CartContext from '@store/cartContext';
+import CartItem from './CartItem';
 
 type CartProps = {
   onClose: () => void;
 };
 
 const Cart = ({ onClose }: CartProps) => {
+  const cartContext = useContext(CartContext);
+
+  const hasItems = cartContext.items.length > 0;
+
+  const cartItemAddHandler = (item: CartItemType) => {};
+
+  const cartItemRemoveHandler = (id: string) => {};
+
   return (
     <Modal onClose={onClose}>
       <ul className='cart-items'>
-        {DUMMY_CART_ITEMS.map((item) => (
-          <li>{item.name}</li>
+        {cartContext.items.map((item) => (
+          <CartItem
+            key={item.id}
+            item={item}
+            onAdd={cartItemAddHandler.bind(null, item)}
+            onRemove={cartItemRemoveHandler.bind(null, item.id)}
+          />
         ))}
       </ul>
       <div className='total'>
         <span>Total Amount</span>
-        <span>35.62</span>
+        <span>{`$ ${cartContext.totalAmount.toFixed(2)}`}</span>
       </div>
       <div className='actions'>
         <button className='cart-button--alt' onClick={onClose}>
           Close
         </button>
-        <button className='cart-button'>Order</button>
+        {hasItems && <button className='cart-button'>Order</button>}
       </div>
     </Modal>
   );
