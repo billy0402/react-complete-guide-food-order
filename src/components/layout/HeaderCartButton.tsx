@@ -1,8 +1,12 @@
 import CartIcon from '@icons/CartIcon';
 
-const HeaderCartButton = () => {
+type HeaderCartButtonProps = {
+  onClick: () => void;
+};
+
+const HeaderCartButton = ({ onClick }: HeaderCartButtonProps) => {
   return (
-    <button className='button'>
+    <button className='button' onClick={onClick}>
       <span className='icon'>
         <CartIcon />
       </span>
