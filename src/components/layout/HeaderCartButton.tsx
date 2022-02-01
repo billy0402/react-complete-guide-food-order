@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import CartIcon from '@icons/CartIcon';
 import CartContext from '@store/cartContext';
@@ -9,14 +9,33 @@ type HeaderCartButtonProps = {
 
 const HeaderCartButton = ({ onClick }: HeaderCartButtonProps) => {
   const cartContext = useContext(CartContext);
+  const [isButtonHighlighted, setIsButtonHighlighted] = useState(false);
+  const { items } = cartContext;
 
-  const numberOfCartItems = cartContext.items.reduce(
+  useEffect(() => {
+    if (!items.length) {
+      return;
+    }
+    setIsButtonHighlighted(true);
+    const timer = setTimeout(() => {
+      setIsButtonHighlighted(false);
+    }, 300);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [items]);
+
+  const numberOfCartItems = items.reduce(
     (total, item) => total + item.amount,
     0,
   );
 
   return (
-    <button className='button' onClick={onClick}>
+    <button
+      className={`button${isButtonHighlighted ? ' bump' : ''}`}
+      onClick={onClick}
+    >
       <span className='icon'>
         <CartIcon />
       </span>
