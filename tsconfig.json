@@ -21,6 +21,7 @@
       "@fixtures/*": ["fixtures/*"],
       "@models/*": ["models/*"],
       "@pages/*": ["pages/*"],
+      "@store/*": ["store/*"],
       "@styles/*": ["styles/*"],
       "@icons/*": ["assets/icons/*"],
       "@images/*": ["assets/images/*"]
