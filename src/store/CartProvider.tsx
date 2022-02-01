@@ -1,18 +1,27 @@
+import { useReducer } from 'react';
+
 import { CartItem } from '@models/cartItem';
 import CartContext from './cartContext';
+import cartReducer, { defaultCartState } from './cartReducer';
 
 type CartProviderProps = {
   children?: React.ReactNode;
 };
 
 const CartProvider = ({ children }: CartProviderProps) => {
-  const addItemToCartHandler = (item: CartItem) => {};
+  const [state, dispatch] = useReducer(cartReducer, defaultCartState);
 
-  const removeItemFromCartHandler = (id: string) => {};
+  const addItemToCartHandler = (item: CartItem) => {
+    dispatch({ type: 'ADD', payload: item });
+  };
+
+  const removeItemFromCartHandler = (id: string) => {
+    dispatch({ type: 'REMOVE', payload: id });
+  };
 
   const cartContext = {
-    items: [],
-    totalAmount: 0,
+    items: state.items,
+    totalAmount: state.totalAmount,
     addItem: addItemToCartHandler,
     removeItem: removeItemFromCartHandler,
   };
