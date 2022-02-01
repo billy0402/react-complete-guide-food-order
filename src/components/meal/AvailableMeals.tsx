@@ -1,13 +1,17 @@
+import Card from '@components/ui/Card';
 import { DUMMY_MEALS } from '@fixtures/meals';
+import MealItem from './meal-item/MealItem';
 
 const AvailableMeals = () => {
   return (
     <section className='meals'>
-      <ul>
-        {DUMMY_MEALS.map((meal) => (
-          <li key={meal.id}>{meal.name}</li>
-        ))}
-      </ul>
+      <Card>
+        <ul>
+          {DUMMY_MEALS.map((meal) => (
+            <MealItem key={meal.id} {...meal} />
+          ))}
+        </ul>
+      </Card>
     </section>
   );
 };
