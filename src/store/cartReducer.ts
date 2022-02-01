@@ -11,12 +11,28 @@ const defaultCartState = {
 
 const cartReducer = (state: typeof defaultCartState, action: ActionType) => {
   switch (action.type) {
-    case 'ADD':
+    case 'ADD': {
+      let updatedItems = [];
+      const existedItemIndex = state.items.findIndex(
+        (item) => item.id === action.payload.id,
+      );
+      const existedItem = state.items[existedItemIndex];
+      if (existedItem) {
+        updatedItems = [...state.items];
+        updatedItems[existedItemIndex] = {
+          ...existedItem,
+          amount: existedItem.amount + action.payload.amount,
+        };
+      } else {
+        updatedItems = [...state.items, action.payload];
+      }
+
       return {
-        items: [...state.items, action.payload],
+        items: updatedItems,
         totalAmount:
           state.totalAmount + action.payload.price * action.payload.amount,
       };
+    }
     case 'REMOVE':
       return {
         items: state.items.filter((item) => item.id !== action.payload),
