@@ -19,11 +19,16 @@ const CartProvider = ({ children }: CartProviderProps) => {
     dispatch({ type: 'REMOVE', payload: id });
   };
 
+  const clearItemsFromCartHandler = () => {
+    dispatch({ type: 'CLEAR' });
+  };
+
   const cartContext = {
     items: state.items,
     totalAmount: state.totalAmount,
     addItem: addItemToCartHandler,
     removeItem: removeItemFromCartHandler,
+    clearItems: clearItemsFromCartHandler,
   };
 
   return (

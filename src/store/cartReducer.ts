@@ -2,7 +2,8 @@ import { CartItem } from '@models/cartItem';
 
 type ActionType =
   | { type: 'ADD'; payload: CartItem }
-  | { type: 'REMOVE'; payload: string };
+  | { type: 'REMOVE'; payload: string }
+  | { type: 'CLEAR' };
 
 const defaultCartState = {
   items: [] as CartItem[],
@@ -54,6 +55,8 @@ const cartReducer = (state: typeof defaultCartState, action: ActionType) => {
         totalAmount: state.totalAmount - existedItem.price,
       };
     }
+    case 'CLEAR':
+      return defaultCartState;
     default:
       return defaultCartState;
   }

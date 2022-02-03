@@ -41,6 +41,7 @@ const Cart = ({ onClose }: CartProps) => {
 
     setIsLoading(false);
     setIsSubmitSuccess(true);
+    cartContext.clearItems();
   };
 
   if (isLoading) {
