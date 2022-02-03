@@ -1,14 +1,17 @@
 import { SyntheticEvent, useRef, useState } from 'react';
 
+import { User } from '@models/user';
+
 const isEmpty = (value: string) => value.trim() === '';
 const isLimitChars = (value: string, limitLength: number) =>
   value.trim().length === limitLength;
 
 type CheckoutProps = {
+  onConfirm: (user: User) => void;
   onCancel: () => void;
 };
 
-const Checkout = ({ onCancel }: CheckoutProps) => {
+const Checkout = ({ onConfirm, onCancel }: CheckoutProps) => {
   const [formInputValidity, setFormInputValidity] = useState<{
     [key: string]: boolean;
   }>({
@@ -58,7 +61,12 @@ const Checkout = ({ onCancel }: CheckoutProps) => {
       return;
     }
 
-    // Submit the cart data
+    onConfirm({
+      name: enteredName,
+      street: enteredStreet,
+      postalCode: enteredPostalCode,
+      city: enteredCity,
+    });
   };
 
   const invalidControlClass = (field: string) =>

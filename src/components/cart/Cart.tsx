@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 
 import Modal from '@components/ui/modal/Modal';
 import { CartItem as CartItemType } from '@models/cartItem';
+import { User } from '@models/user';
 import CartContext from '@store/cartContext';
 import CartItem from './CartItem';
 import Checkout from './Checkout';
@@ -28,6 +29,13 @@ const Cart = ({ onClose }: CartProps) => {
     setIsCheckout(true);
   };
 
+  const submitHandler = (user: User) => {
+    fetch('http://localhost:3001/orders', {
+      method: 'POST',
+      body: JSON.stringify({ user, orderItems: cartContext.items }),
+    });
+  };
+
   return (
     <Modal onClose={onClose}>
       <ul className='cart-items'>
@@ -44,7 +52,7 @@ const Cart = ({ onClose }: CartProps) => {
         <span>Total Amount</span>
         <span>{`$ ${cartContext.totalAmount.toFixed(2)}`}</span>
       </div>
-      {isCheckout && <Checkout onCancel={onClose} />}
+      {isCheckout && <Checkout onConfirm={submitHandler} onCancel={onClose} />}
       {!isCheckout && (
         <div className='actions'>
           <button className='cart-button--alt' onClick={onClose}>
