@@ -14,6 +14,8 @@ type CartProps = {
 const Cart = ({ onClose }: CartProps) => {
   const cartContext = useContext(CartContext);
   const [isCheckout, setIsCheckout] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
 
   const hasItems = cartContext.items.length > 0;
 
@@ -29,12 +31,38 @@ const Cart = ({ onClose }: CartProps) => {
     setIsCheckout(true);
   };
 
-  const submitHandler = (user: User) => {
-    fetch('http://localhost:3001/orders', {
+  const submitHandler = async (user: User) => {
+    setIsLoading(true);
+
+    await fetch('http://localhost:3001/orders', {
       method: 'POST',
       body: JSON.stringify({ user, orderItems: cartContext.items }),
     });
+
+    setIsLoading(false);
+    setIsSubmitSuccess(true);
   };
+
+  if (isLoading) {
+    return (
+      <Modal onClose={onClose}>
+        <p>Sending order data...</p>
+      </Modal>
+    );
+  }
+
+  if (isSubmitSuccess) {
+    return (
+      <Modal onClose={onClose}>
+        <p>Successfully sent the order!</p>
+        <div className='actions'>
+          <button className='cart-button--alt' onClick={onClose}>
+            Close
+          </button>
+        </div>
+      </Modal>
+    );
+  }
 
   return (
     <Modal onClose={onClose}>
