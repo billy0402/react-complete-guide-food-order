@@ -7,12 +7,22 @@ import MealItem from './meal-item/MealItem';
 const AvailableMeals = () => {
   const [meals, setMeals] = useState<Meal[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [httpError, setHttpError] = useState<string | null>(null);
 
   const fetchMeals = async () => {
     setIsLoading(true);
-    const response = await fetch('http://localhost:3001/meals');
-    const responseData = await response.json();
-    setMeals(responseData);
+
+    try {
+      const response = await fetch('http://localhost:3001/meals');
+      if (!response.ok) {
+        throw new Error('Something went wrong!');
+      }
+      const responseData = await response.json();
+      setMeals(responseData);
+    } catch (error) {
+      setHttpError((error as Error).message);
+    }
+
     setIsLoading(false);
   };
 
@@ -24,6 +34,14 @@ const AvailableMeals = () => {
     return (
       <section className='meals__loading'>
         <p>Loading...</p>
+      </section>
+    );
+  }
+
+  if (httpError) {
+    return (
+      <section className='meals__error'>
+        <p>{httpError}</p>
       </section>
     );
   }
